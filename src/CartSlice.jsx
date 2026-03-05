@@ -53,11 +53,15 @@ export const CartSlice = createSlice({
     },
     updateQuantity: (state, action) => {
         const { name, quantity } = action.payload;
+        if (quantity <= 0) {
+            return removeItem({ name });
+        }
+
         const existingIndex = state.items.findIndex((item) => item.name === name);
         if (existingIndex === -1) {
             return state;
         }
-        
+
         return {
             ...state,
             items: [
